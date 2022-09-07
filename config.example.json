@@ -1,0 +1,4 @@
+{
+    "book": "book.txt",
+    "webhook": "https://discord.com/api/webhooks/PUT_SECRET_THINGY_HERE"
+}
