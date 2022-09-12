@@ -1,27 +1,38 @@
 // Read a file and print its contents.
+
 import fs from "fs";
 import axios from "axios"
-const webhookVar = require("./config.json").webhook
-const bookVar = require("./config.json").book
-console.log(webhookVar)
-const book = fs.readFileSync(bookVar, "utf8").split(/[!?.]/gm);
-let sentence = Number(fs.readFileSync("sentence.txt", "utf8"));
+const config = require("./config.json")
+const book = fs.readFileSync(config.book, "utf8").split(/[!?.]/gm);
+const sentence = Number(fs.readFileSync("sentence.txt", "utf8"));
 
 console.log("BookBot By Jonte")
 
-if (book[sentence] === undefined || book[sentence] === "") {
-  console.log("Book over, going from the top!")
-  sentence = 0
-}
-
 const options = {
   method: 'POST',
-  url: `${webhookVar}`,
+  url: `${config.webhook}`,
   headers: {
     'Content-Type': 'application/json'
   },
   data: {username: 'BookBot', content: `"${book[sentence].trim()}"`}
 };
+const refillOptions = {
+  method: 'POST',
+  url: `${config.webhook}`,
+  headers: {
+    'Content-Type': 'application/json'
+  },
+  data: {username: 'BookBot', content: `📖 <@${config.owner}> Book is over, please refill the program with more text. Contact Jonte for details.`}
+};
+if (book[sentence] === undefined || book[sentence] === "") {
+  axios.request(refillOptions).then(function (response) {
+    console.log("Book over, pinging owner!")
+    process.exit(0);
+  }).catch(function (error) {
+    console.error(error);
+  });
+}
+
 
 axios.request(options).then(function (response) {
   console.log("Successfully sent with code: "+response.status);
