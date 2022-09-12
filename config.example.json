@@ -1,4 +1,5 @@
 {
     "book": "book.txt",
+    "owner": "823945822190174268",
     "webhook": "https://discord.com/api/webhooks/PUT_SECRET_THINGY_HERE"
 }
