@@ -1,5 +1,5 @@
-import fs from "fs";
 import axios from "axios"
+import * as fs from 'fs';
 const config = require("./config.json")
 const book = fs.readFileSync(`./books/${config.book}`, "utf8").split(/[!?.]/gm);
 const sentence = Number(fs.readFileSync("sentence.txt", "utf8"));
